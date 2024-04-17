@@ -7,13 +7,8 @@ let dbURI: string = `${DB_SERVER}${DB_NAME}`
 
 const options = {
   useNewUrlParser: true,
-  useCreateIndex: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
   autoIndex: true,
-  poolSize: 10, // Maintain up to 10 socket connections
-  // If not connected, return errors immediately rather than waiting for reconnect
-  bufferMaxEntries: 0,
   connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   authSource: 'admin',
@@ -53,10 +48,7 @@ mongoose.connection.on('disconnected', () => {
 
 // If the Node process ends, close the Mongoose connection (ctrl + c)
 process.on('SIGINT', () => {
-  mongoose.connection.close(() => {
-    logger.info('Mongoose default connection disconnected through app termination')
-    process.exit(0)
-  })
+  mongoose.connection.close(true);
 })
 
 process.on('uncaughtException', (err) => {

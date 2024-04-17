@@ -1,10 +1,13 @@
 import express from 'express'
+import { User } from "@/models/user.model";
 
 const router = express.Router()
 
-router.post('/test', async (req, res, next) => {
+router.get('/test', async (req, res, next) => {
   try {
-    res.send('Wokring..!!!');
+    const user = new User({ firstName: 'Mandar', lastName: 'K' })
+    await user.save();
+    res.send(`Wokring..!!! ${user}`);
   } catch (e) {
     next(e)
   }
