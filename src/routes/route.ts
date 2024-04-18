@@ -1,16 +1,8 @@
 import express from 'express'
-import { User } from "@/models/user.model";
-
+import {handleAnotherRoute, handleTestRoute} from "@/controllers";
 const router = express.Router()
 
-router.get('/test', async (req, res, next) => {
-  try {
-    const user = new User({ firstName: 'Mandar', lastName: 'K' })
-    await user.save();
-    res.send(`Wokring..!!! ${user}`);
-  } catch (e) {
-    next(e)
-  }
-})
+router.post('/test', handleTestRoute)
+router.get('/test2', handleAnotherRoute)
 
 export default router
